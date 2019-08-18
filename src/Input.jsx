@@ -5,16 +5,12 @@ class Input extends React.Component {
     super(props)
   }
 
-  onChange = event => {
-    this.props.onChange(event)
-  }
-
   render() {
     const { value } = this.props;
 
     return (
       <form >
-        <input className = 'form' id='hex' name='hex' placeholder = 'input HEX' value={value} onChange={this.onChange} />
+        <input className='form' id='hex' name='hex' placeholder='input HEX' value={value} onChange={this.props.onChange} />
       </form>
     )
   }

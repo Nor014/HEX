@@ -11,27 +11,27 @@ class Converter extends React.Component {
   }
 
   onChange = (event) => {
-    event.persist()
+
+    let value = event.target.value
 
     this.setState(prevState => {
-      return { ...prevState, inputValue: event.target.value }
-    }, () => console.log(this.state))
+      return { ...prevState, inputValue: value }
+    }, () => {
+      (this.state.inputValue.length === 7) && this.HEXToRGBA(this.state.inputValue)
+    })
   }
 
+  HEXToRGBA = (hex) => {
+    this.setState(prevState => {
+      return {
+        ...prevState, rgb: /^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)
+          ? "rgb(" + parseInt(hex.slice(1, 3), 16) + ", " + parseInt(hex.slice(3, 5), 16) + ", " + parseInt(hex.slice(5, 7), 16) + ")"
+          : "ошибка формата"
+       }
+    })
+  };
+
   render() {
-
-    const HEXToRGBA = (hex) => {
-      if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-
-        let r = parseInt(hex.slice(1, 3), 16),
-          g = parseInt(hex.slice(3, 5), 16),
-          b = parseInt(hex.slice(5, 7), 16);
-
-        this.state.rgb = "rgb(" + r + ", " + g + ", " + b + ")"
-      } else { this.state.rgb = "ошибка формата" }
-    };
-
-    (this.state.inputValue.length === 7) && HEXToRGBA(this.state.inputValue)
 
     let containerStyle = {
       background: this.state.rgb === 'ошибка формата' ? "red" : this.state.rgb
